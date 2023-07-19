@@ -1,0 +1,8 @@
+.homeLayout{
+    position:relative;
+    display: grid;
+    grid-template-columns: .7fr 4fr;
+    height: 100dvh;
+    /* width: 100dvw; */
+    /* background-color: red; */
+}
