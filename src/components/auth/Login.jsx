@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './login.css'
-import loginImage from './loginImage.png'
+// import loginImage from './loginImage.png'
 import InstaWord from './InstaWord.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { login, signUp } from '../../actions/userActions'
@@ -34,9 +34,10 @@ const Login = () => {
     }
     useEffect(()=>{
         if(error){
-            console.log(error);
+            // console.log(error);
         }
     },[error])
+    console.log(import.meta.env.VITE_BACKEND_URL);
     return (
         <>
             <div className="login" >
