@@ -9,3 +9,7 @@
     display: grid;
     grid-template-columns: .7fr 4fr;
 }
+.loginApp{
+    height: 100dvh;
+    width: 100dvw;
+}

@@ -3,26 +3,28 @@
     max-height: 100%;
     width: 100%;
     display: flex;
-    /* align-items: center;  */
     justify-content: center;
     background-color: #fafafa;
+    padding-top: 4rem;
+    
+    
 }
 
 .login>div {
     height: 70%;
     width: 20rem;
     margin: 1rem;
-    margin-top: 4rem;
+    /* margin-top: 4rem; */
 }
 
-.loginImg {
+/* .loginImg {
     display: flex;
     justify-content: center;
-}
+} */
 
-.loginImg>img {
+/* .loginImg>img {
     height: 100%;
-}
+} */
 
 .loginForm {
     display: flex;
@@ -143,7 +145,28 @@
     width: 100%;
 }
 
-
+@media screen and (min-width:768px) {
+    /* .login {
+    } */
+    .login::before{
+        content: '';
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-image: url(../../images/insta.png);
+        background-size: cover;
+        filter: grayscale(100%);
+    }
+    .login>div {
+        height: 70%;
+        width: 20rem;
+        margin: 1rem;
+        opacity: .9;
+        /* margin-top: 4rem; */
+    }
+}
 /* for tablet */
 
 @media screen and (min-width:768px) and (max-width:1024px) {
@@ -152,15 +175,16 @@
         width: 15rem;
         margin: 1rem;
         margin-top: 4rem;
+        scale: 1.2;
     }
     .questionForSignUp {
         font-size: .7rem;
         margin-top: 0;
     }
     .loginForm>div>img {
-        height: 4.5rem;
-        width: 29rem !important;
-        margin-top: 2.5rem;
+        height: 3.5rem;
+        /* width: 24rem !important; */
+        margin-top: 3rem;
     }
     .loginForm>form>div {
         width: 80%;

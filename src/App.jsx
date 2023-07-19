@@ -35,7 +35,7 @@ function App() {
               <Route path='/reels' element={<Reels/>}/>
             </Routes>
           </div> :
-          <div className='app' >
+          <div className='loginApp' >
             <Routes>
               <Route path='/' element={<Login />} />
             </Routes>

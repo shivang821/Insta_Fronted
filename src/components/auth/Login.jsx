@@ -40,10 +40,10 @@ const Login = () => {
     return (
         <>
             <div className="login" >
-                <div className="loginImg">
+                {/* <div className="loginImg">
                     <img src={loginImage} alt="" />
-                </div>
-                <div className="loginForm">
+                </div> */}
+                <div className={`loginForm ${isLoginForm?"loginDiv":"signupDiv"}`}>
                     <div><img src={InstaWord} alt="" /></div>
                     {isLoginForm ?
                         <form encType="multipart/form-data" onSubmit={submitLogin} style={{display:!isLoginForm?"none":"flex"}} >
