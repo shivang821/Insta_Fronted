@@ -37,13 +37,9 @@ const Login = () => {
             // console.log(error);
         }
     },[error])
-    console.log(import.meta.env.VITE_BACKEND_URL);
     return (
         <>
             <div className="login" >
-                {/* <div className="loginImg">
-                    <img src={loginImage} alt="" />
-                </div> */}
                 <div className={`loginForm ${isLoginForm?"loginDiv":"signupDiv"}`}>
                     <div><img src={InstaWord} alt="" /></div>
                     {isLoginForm ?
@@ -72,7 +68,7 @@ const Login = () => {
                             <div>
                                 <input type="password" required onChange={(e)=>{setSignUpPassword(e.target.value)}} value={signUpPassword} name="signUpPassword" placeholder='Password' />
                             </div>
-                            <button type='submit' className='loginBtn'>Sign up</button>
+                            <button type='submit' className='loginBtn signUpBtn'>Sign up</button>
 
                             <span className='span' ><div></div><p>OR</p><div></div></span>
                             <p className='questionForSignUp' >Have an account? <span onClick={()=>{setLoginForm(!isLoginForm)}}> Log in</span></p>

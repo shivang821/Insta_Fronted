@@ -1,15 +1,104 @@
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+:root {
+    --background1: #ffffff;
+    --background2: #efefef;
+    --background3:#efefef;
+    --border:#c7c7c7;
+    --text1: #000000;
+    --text2:#262626;
+    --text3:#737373;
+    --button: rgb(0, 149, 246);
+    --buttonHover: rgb(24, 119, 242);
 }
-.app{
+.darkmode{
+    --background1: #000000;
+    --background2: #111111;
+    --background3:#191919;
+    --border:#737373;
+    --text1: #ffffff;
+    --text2:#d4d4d4;
+    --text3:#a8a8a8;
+    --button: rgb(0, 149, 246);
+    --buttonHover: rgb(24, 119, 242);
+}
+.app {
+    font-family: SFPRO;
     height: 100dvh;
     width: 100dvw;
-    display: grid;
-    grid-template-columns: .7fr 4fr;
+    max-width: 100%;
+    display: flex;
+    background-color: var(--background1);
+    /* transition: background-color ease-in-out .3s; */
+    overflow-y: hidden;
+    position: relative;
 }
-.loginApp{
+
+::-webkit-scrollbar{
+    display: none !important;
+    appearance: none !important;
+    width: 0;
+    background-color: transparent;
+    -webkit-appearance: none;
+}
+@media screen and (min-width:1440px) {
+    .app>div:first-child {
+        width: 15rem;
+    }
+
+    .app2 {
+        width: calc(100% - 15rem);
+        overflow-y: auto;
+        height: auto;
+        min-height: 100vh;
+    }
+}
+
+.loginApp {
     height: 100dvh;
     width: 100dvw;
+}
+
+@font-face {
+    font-family: SFPRO;
+    src: url('./SFPRODISPLAYREGULAR.OTF');
+}
+
+@media screen and (min-width:768px) and (max-width:1439px) {
+    .app {
+        font-family: SFPRO;
+        height: 100dvh;
+        width: 100dvw;
+        max-width: 100%;
+        display: flex;
+        background-color: var(--background1);
+    }
+
+    .app>div:first-child {
+        height: 100vh;
+        width: 4rem;
+    }
+
+    .app2 {
+        height: 100vh;
+        width: calc(100% - 4rem);
+        overflow-y: auto;
+    }
+}
+
+@media screen and (max-width:767px) {
+    .app {
+        /* position: relative;
+        position: relative; */
+        font-family: SFPRO;
+        display: flex;
+        /* padding-top: 3rem; */
+        padding-bottom: 3.5rem;
+        height: auto;
+        min-height: 100dvh;
+    }
+    .app2{
+        min-height: calc( 100vh - 6rem); 
+        height: auto;
+        width: 100vw;
+        max-width: 100%;
+    }
 }

@@ -1,0 +1,7 @@
+.profile{
+    
+    color: var(--text1);
+    background-color: red;
+    height: auto;
+    min-height: 100%;
+}
