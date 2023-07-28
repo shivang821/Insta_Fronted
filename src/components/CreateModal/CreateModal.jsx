@@ -1,37 +1,28 @@
 import { useEffect, useRef, useState } from 'react'
 import './createModal.css'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { SET_MODAL_OPEN } from '../../reducers/appReducer';
-import { useAnimate, usePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useDropzone } from 'react-dropzone';
 import { ReactComponent as CreatePost } from './assets/createPost.svg'
 import { ReactComponent as ArrowIcon } from './assets/arrowIcon.svg'
-import { ref, getDownloadURL, uploadBytesResumable, deleteObject, uploadBytes } from 'firebase/storage'
-import { v4 } from 'uuid'
-import { storage } from '../../firebase.js'
+import { ReactComponent as Back } from './assets/backIcon.svg'
+import { ReactComponent as MuteIcon } from './assets/muteIcon.svg'
+import { ReactComponent as UnMuteIcon } from './assets/unMuteIcon.svg'
+import { upload } from '../../actions/uploadAction';
+import { UPLOAD_RESET } from '../../reducers/uploadReducer';
 const CreateModal = () => {
-    // const scope = useRef(null);
-    const [isPresent, safeToRemove] = usePresence();
-    const [scope, animate] = useAnimate()
     const dispatch = useDispatch()
     const vidRef = useRef(null)
-    const [stop, setStop] = useState(true)
+    const [mute, setMute] = useState(true)
     const [files, setFiles] = useState([])
     const [uploadFiles, setUploadFiles] = useState([])
     const [count, setCount] = useState(0)
-    const [postName, setPostName] = useState("");
-    const [isProgress, setIsProgress] = useState(false);
+    const scope = useRef(null)
+    const { loading, success } = useSelector(state => state.Upload)
 
-    const handlePlayPause = (e) => {
-        // if (vidRef.current) {
-        setStop(!stop)
-        if (stop) {
-            e.target.pause()
-        }
-        else {
-            e.target.play()
-        }
-        // }
+    const handleMuteUnMute = () => {
+        setMute(!mute)
     }
     const onDrop = (acceptedFiles) => {
         acceptedFiles.forEach((file) => {
@@ -44,124 +35,96 @@ const CreateModal = () => {
             setUploadFiles(preFiles => [...preFiles, { type, data: file }])
         })
     }
+    const [postType, setPostType] = useState("")
     const { getRootProps, getInputProps } = useDropzone({
-        onDrop, accept: {
+        onDrop, accept: postType === "post" ? {
             'image/png': ['.png'],
             'image/jpg': ['.jpg'],
             'image/jpeg': ['.jpeg'],
             'video/mp4': ['.mp4']
-        }, noClick: true
+        } : { 'video/mp4': ['.mp4'] }, noClick: true,multiple:postType==="reel"?false:true
     })
     useEffect(() => {
-        const pBar = document.querySelector('.progress')
-        if (!isProgress) {
-            if (pBar) {
-                pBar.style.display = 'none';
-            }
-        } else {
-            if (pBar) {
-                pBar.style.display = 'block';
-            }
-        }
         function handleClickOutside(e) {
-            if (!isProgress && scope.current && !scope.current.contains(e.target)) {
+            if (!loading && scope.current && !scope.current.contains(e.target)) {
                 dispatch(SET_MODAL_OPEN(false))
+                dispatch(UPLOAD_RESET())
             }
         }
         document.addEventListener('click', handleClickOutside, true);
-        if (isPresent) {
-            const enterAnimation = async () => {
-                await animate(scope.current, { opacity: [0, 1] }, { duration: .5 })
-
-            }
-            enterAnimation()
-        } else {
-            const exitAnimation = async () => {
-                await animate({ opacity: [1, 0] }, { duration: .5 })
-                safeToRemove()
-            }
-            exitAnimation()
-        }
-
-
         return () => {
             document.removeEventListener('click', handleClickOutside, true)
+
         }
-    }, [files, animate, scope, safeToRemove, isPresent, dispatch, isProgress])
+    }, [files, dispatch, loading,uploadFiles])
 
     const uploadPosts = async () => {
-        try {
-
-            // uploadFiles.forEach(async (file, i) => {
-            setIsProgress(true);
-            for (let i = 0; i < uploadFiles.length; i++) {
-
-                const postRef = ref(storage, `posts/${uploadFiles[i].type + v4()}`)
-                setPostName(postRef.name);
-                const snapshot = await uploadBytes(postRef, uploadFiles[i].data)
-                const url=await getDownloadURL(snapshot.ref)
-                console.log(url);
-                // const fileUpload = uploadBytesResumable(postRef, file.data)
-                // fileUpload.on("state_changed",
-                //     (snapshot) => {
-                //         const prog = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
-                //     },
-                //     (err) => { console.log(err); },
-                //     () => {
-                //         getDownloadURL(fileUpload.snapshot.ref).then((url) => {
-                //             if (i === files.length - 1) {
-                //                 setIsProgress(false)
-                //             }
-                //         })
-                //     }
-                // )
-                // })
-            }
-            setIsProgress(false);
-            console.log('com');
-        } catch (error) {
-            setIsProgress(false);
-            console.log(error);
-        }
-
+        dispatch(upload(uploadFiles,postType));
     }
-
-    const deletePost = async() => {
-        try {
-            setIsProgress(true);
-            const deleteRef = ref(storage, `posts/${postName}`);
-            await deleteObject(deleteRef)
-            console.log("deleted successfully");
-            setIsProgress(false);
-            
-        } catch (error) {
-            setIsProgress(false);
-            console.log(error);
-        }
+    const back=()=>{ 
+        if (files.length > 0) { 
+            setCount(0);
+            setFiles([]); setUploadFiles([]);
+            dispatch(UPLOAD_RESET())
+        } 
+        else if (postType !== "") { 
+            setPostType(""); 
+        } 
     }
     return (
-        <div className="createModal" >
-            <div className="innerModal" ref={scope} >
+        <motion.div className="createModal" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: .2, ease: "linear" }}>
+            <div className="innerModal" ref={scope}  >
                 <div className="createModalTop">
-                    <p>Create Post</p>
+                    {postType === "" ? <p>Create new post or reel</p> : <p>Create {postType}</p>}
+                    {postType !== "" && <div className='backIcon' onClick={() => back()} > <Back /> </div>}
+                    {
+                        (count === files.length - 1 && !success) && <button className='nextButton' onClick={uploadPosts}  >Next</button>
+                    }
                 </div>
                 {
                     files.length === 0 ?
                         <div {...getRootProps()} className="createModaBottom">
-
-                            <input {...getInputProps()} />
-                            <CreatePost />
-                            <p>Drag photos and videos here</p>
-                            <div id='postDiv' >
-                                <label htmlFor="postInp">Select from device</label>
-                                <input multiple onChange={(e) => { onDrop([...e.target.files]) }} type="file" style={{ visibility: 'hidden' }} accept='image/png,image/jpg,image/jpeg,video/mp4' id="postInp" />
-                            </div>
+                            {postType === "" &&
+                                <div className="emptyPost">
+                                    <button onClick={() => setPostType("post")} >Crete Post</button>
+                                    <button onClick={() => setPostType("reel")} >Crete Reel</button>
+                                </div>
+                            }
+                            {postType === "post" &&
+                                <div>
+                                    <input {...getInputProps()} />
+                                    <CreatePost />
+                                    <p>Drag photos here</p>
+                                    <div id='postDiv' >
+                                        <label htmlFor="postInp">Select from device</label>
+                                        <input multiple onChange={(e) => { onDrop([...e.target.files]) }} type="file" style={{ visibility: 'hidden' }} accept='image/png,image/jpg,image/jpeg,video/mp4' id="postInp" />
+                                    </div>
+                                </div>
+                            }
+                            {postType === "reel" &&
+                                <div>
+                                    <input {...getInputProps()} />
+                                    <CreatePost />
+                                    <p>Drag videos here</p>
+                                    <div id='postDiv' >
+                                        <label htmlFor="postInp">Select from device</label>
+                                        <input onChange={(e) => { onDrop([...e.target.files]) }} type="file" style={{ visibility: 'hidden' }} accept='video/mp4' id="postInp" />
+                                    </div>
+                                </div>
+                            }
                         </div>
                         :
-                        <div className='files'>
-                            <motion.div key={count} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1, ease: "easeInOut" }} >
-                                {files && files[count].type === 'video' ? <video autoPlay muted controls loop disablePictureInPicture controlsList="nodownload nofullscreen noplaybackrate" src={files[count].data} ref={vidRef} onClick={(e) => handlePlayPause(e)} /> : <img src={files[count].data} alt="" />}
+                        <motion.div className='files' initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: .5, ease: "linear" }}>
+                            <motion.div className="itemDiv" key={count} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: .5, ease: "linear" }} >
+                                {(files[count].type === 'video') ?
+                                    <div>
+                                        <video autoPlay controls loop disablePictureInPicture controlsList="nodownload nofullscreen noplaybackrate" src={files[count].data} ref={vidRef} muted={mute} onClick={(e) => handleMuteUnMute(e)} />
+                                        {!mute ? <UnMuteIcon className="unMuteIcon" onClick={handleMuteUnMute} /> : <MuteIcon className="muteIcon" onClick={handleMuteUnMute} />}
+                                    </div>
+                                    :
+                                    <img src={files[count].data} alt="" />}
                             </motion.div>
+
                             {count !== 0 && <div className="left" onClick={() => { if (count > 0) { setCount(count - 1) } }} >
                                 <ArrowIcon />
                             </div>}
@@ -170,22 +133,16 @@ const CreateModal = () => {
                                     <ArrowIcon />
                                 </div>
                             }
-                            {
-                                (count === files.length - 1 && postName === "") && <button className='nextButton' onClick={uploadPosts}  >Upload</button>
-                            }
-                            {
-                                (postName !== "") && <button className='nextButton' onClick={deletePost}  >Delete</button>
-                            }
-                            <div className="bar">
-                                <div className="progress">
 
+                            <div className="bar1" style={{display:`${loading?"block":"none"}`}}>
+                                <div className="progress1" >
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
                 }
 
             </div>
-        </div>
+        </motion.div>
     )
 }
 

@@ -124,26 +124,26 @@ const Reels = () => {
         type: 'img'
       },
     ]
-    const vidArr=[
-      {
-        type: 'vid'
-      },
-      {
-        type: 'vid'
-      },
-      {
-        type: 'vid'
-      },
-      {
-        type: 'vid'
-      },
-      {
-        type: 'vid'
-      },
-      {
-        type: 'vid'
-      },
-    ]
+    // const vidArr=[
+    //   {
+    //     type: 'vid'
+    //   },
+    //   {
+    //     type: 'vid'
+    //   },
+    //   {
+    //     type: 'vid'
+    //   },
+    //   {
+    //     type: 'vid'
+    //   },
+    //   {
+    //     type: 'vid'
+    //   },
+    //   {
+    //     type: 'vid'
+    //   },
+    // ]
     // const [isRight,setIsRight]=useState(true);
     function swap(){
       let ind=2;
@@ -173,7 +173,6 @@ const Reels = () => {
     swap()
     setArr(imgArr)
   },[])
-  console.log(Arr);
   return (
     <motion.div
       className='reels'

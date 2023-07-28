@@ -32,7 +32,7 @@ function App() {
   const location = useLocation();
   useEffect(() => {
     dispatch(fetchUser())
-  }, [dispatch, modalOpen])
+  }, [dispatch])
   return (
     <>
       <Suspense fallback={<Splash />} >
@@ -41,8 +41,8 @@ function App() {
             {/* {device==='mob' && <TopBar />} */}
             <SideBar />
             <div className='app2'>
-              <AnimatePresence mode='popLayout' initial={true}>
-                <Routes  >
+              <AnimatePresence  location={location} key={location.pathname}   >
+                <Routes>
                   <Route path='/' element={<Home />} />
                   <Route path='/search' element={<Search />} />
                   <Route path='/inbox' element={<Messages />} />

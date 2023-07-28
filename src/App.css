@@ -27,7 +27,6 @@
     max-width: 100%;
     display: flex;
     background-color: var(--background1);
-    /* transition: background-color ease-in-out .3s; */
     overflow-y: hidden;
     position: relative;
 }
