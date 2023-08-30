@@ -3,12 +3,12 @@
     max-width: 15rem;
     height: 100%;
     position: relative;
-    background-color: var(--background2);
+    background-color: var(--background1);
     border-right:1px solid var(--border) ;
     z-index: 20;
 }
 .sidebar1{
-    background-color: var(--background2);
+    background-color: var(--background1);
     height: 100vh;
     width: 100%;
     position: sticky;
@@ -67,7 +67,7 @@
 }
 
 .sidebarMiddle>a:hover,.sidebarMiddle>div:hover,.sidebarBottom>div:hover{
-    background-color: var(--background3);
+    background-color: var(--background2);
 }
 .sidebarMiddle>a>p,.sidebarMiddle>div>p,.sidebarBottom>div>p{
     font-size: 1.2rem;
@@ -84,15 +84,6 @@
     width: 1.6rem;
     border-radius: 50%;
 }
-/* .activeLink{
-    color: red !important;
-} */
-/* .activeLink>svg{
-    color: var(--text1);
-    fill: var(--text1);
-    color: red !important;
-    fill: red;
-} */
 .sidebarBottom{
     height: 15%;
     width: 100%;

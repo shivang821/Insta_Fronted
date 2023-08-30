@@ -1,0 +1,72 @@
+
+.bottom{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    padding-left: 1rem;
+    gap: .6rem;
+    height: 9rem;
+}
+.bottom1{
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin-bottom: .5rem;
+}
+.profileDiv{
+    height: 3rem !important;
+    width: 3rem !important;
+    border-radius: 50%;
+    animation: textAnimation 1.2s linear infinite alternate;
+}
+.text1{
+    height: .8rem;
+    width: 8rem;
+    border-radius: 5px;
+    animation: textAnimation 1.2s linear infinite alternate;
+}
+.text2{
+    height: .8rem;
+    width: 80%;
+    border-radius: 5px;
+    animation: textAnimation 1.2s linear infinite alternate;
+}
+@keyframes textAnimation {
+    0%{
+        background-color:var(--background1);
+    }
+    100%{
+        background-color: var(--background2);
+    }
+}
+@keyframes loading {
+    0%{
+        background-color: var(--background2);
+    }
+    100%{
+        background-color:var(--background1);
+    }
+}
+
+
+/* .animate{
+    height: 4rem;
+    width: 100%;
+}
+.loadingIcon{
+    height: 3rem;
+    width: 3rem;
+    animation: rotate 1s linear infinite alternate;
+}
+@keyframes rotate {
+    from{
+        rotate: 0deg;
+    }to{
+        rotate: 360deg;
+    }
+} */

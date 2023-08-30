@@ -42,9 +42,6 @@ const Home = () => {
       <div></div>
       <div style={{backgroundColor:'yellow'}}></div>
         <div></div>
-      {/* <h2 className="last">
-          home
-        </h2> */}
     </motion.div>
   )
 }

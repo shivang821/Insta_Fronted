@@ -62,6 +62,7 @@ function App() {
           <div className='loginApp' >
             <Routes>
               <Route path='/' element={<Login />} />
+              {/* <Route path='/*' element={<Navigate to='/' />} /> */}
             </Routes>
           </div>
         }

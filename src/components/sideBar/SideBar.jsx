@@ -22,7 +22,7 @@ import { ReactComponent as DarkModeIcon } from './instaAssets/darkmodeIcon.svg'
 import Profile from './instaAssets/userProfileImage.jpg'
 import InstaIcon from './instaAssets/instaIcon.png'
 import { useDispatch, useSelector } from 'react-redux'
-import { SET_MODAL_OPEN } from '../../reducers/appReducer'
+import { SET_MODAL_OPEN, SET_dEVICE } from '../../reducers/appReducer'
 const SideBar = () => {
   const {modalOpen}=useSelector(state=>state.App) 
   const [device, setDevice] = useState();
@@ -41,11 +41,14 @@ const SideBar = () => {
     function handleResize() {
       const deviceWidth = window.innerWidth;
       if (deviceWidth > 1439) {
+        dispatch(SET_dEVICE("lap"));
         setDevice('lap');
       }
       else if (deviceWidth >= 768 && deviceWidth < 1440) {
+        dispatch(SET_dEVICE("tab"));
         setDevice('tab')
       } else if (deviceWidth < 768) {
+        dispatch(SET_dEVICE("mob"));
         setDevice('mob')
       }
     }
@@ -61,10 +64,7 @@ const SideBar = () => {
     };
   }, [dark])
   const setModalOpen = () => {
-    // setCreateOpen(!isCreateOpen)
     dispatch(SET_MODAL_OPEN(!modalOpen));
-    // localStorage.setItem('modalOpen', !isCreateOpen)
-
   }
   return (
     <>

@@ -85,7 +85,7 @@
     /* flex-direction: row !important; */
 }
 .emptyPost>button{
-    height: 2rem;
+    height: 2.2rem;
     width: 12rem;
     background-color: var(--button);
     border: none;
@@ -226,7 +226,7 @@
 }
 
 .files>div>div>video::-webkit-media-controls{
-    display: none;  
+    /* display: none;   */
  }
 
 .files>.left{

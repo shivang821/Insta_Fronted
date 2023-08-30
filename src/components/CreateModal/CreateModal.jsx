@@ -32,7 +32,7 @@ const CreateModal = () => {
                 setFiles(prevFiles => [...prevFiles, { data: reader.result, type }])
             }
             reader.readAsDataURL(file);
-            setUploadFiles(preFiles => [...preFiles, { type, data: file }])
+            setUploadFiles(preFiles => [...preFiles, file])
         })
     }
     const [postType, setPostType] = useState("")
@@ -57,9 +57,13 @@ const CreateModal = () => {
 
         }
     }, [files, dispatch, loading,uploadFiles])
-
     const uploadPosts = async () => {
-        dispatch(upload(uploadFiles,postType));
+        const myForm=new FormData();
+        uploadFiles.forEach((file)=>{
+            myForm.append("files",file);
+        })
+        myForm.set('postType',postType)
+        dispatch(upload(myForm));
     }
     const back=()=>{ 
         if (files.length > 0) { 
@@ -97,7 +101,7 @@ const CreateModal = () => {
                                     <p>Drag photos here</p>
                                     <div id='postDiv' >
                                         <label htmlFor="postInp">Select from device</label>
-                                        <input multiple onChange={(e) => { onDrop([...e.target.files]) }} type="file" style={{ visibility: 'hidden' }} accept='image/png,image/jpg,image/jpeg,video/mp4' id="postInp" />
+                                        <input multiple onChange={(e) => { onDrop([...e.target.files]) }} name='files' type="file" style={{ visibility: 'hidden' }} accept='image/png,image/jpg,image/jpeg,video/mp4' id="postInp" />
                                     </div>
                                 </div>
                             }
@@ -108,7 +112,7 @@ const CreateModal = () => {
                                     <p>Drag videos here</p>
                                     <div id='postDiv' >
                                         <label htmlFor="postInp">Select from device</label>
-                                        <input onChange={(e) => { onDrop([...e.target.files]) }} type="file" style={{ visibility: 'hidden' }} accept='video/mp4' id="postInp" />
+                                        <input name='files' onChange={(e) => { onDrop([...e.target.files]) }} type="file" style={{ visibility: 'hidden' }} accept='video/mp4' id="postInp" />
                                     </div>
                                 </div>
                             }
@@ -118,7 +122,7 @@ const CreateModal = () => {
                             <motion.div className="itemDiv" key={count} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: .5, ease: "linear" }} >
                                 {(files[count].type === 'video') ?
                                     <div>
-                                        <video autoPlay controls loop disablePictureInPicture controlsList="nodownload nofullscreen noplaybackrate" src={files[count].data} ref={vidRef} muted={mute} onClick={(e) => handleMuteUnMute(e)} />
+                                        <video autoPlay loop disablePictureInPicture controlsList="nodownload nofullscreen noplaybackrate" src={files[count].data} ref={vidRef} muted={mute} onClick={(e) => handleMuteUnMute(e)} />
                                         {!mute ? <UnMuteIcon className="unMuteIcon" onClick={handleMuteUnMute} /> : <MuteIcon className="muteIcon" onClick={handleMuteUnMute} />}
                                     </div>
                                     :
