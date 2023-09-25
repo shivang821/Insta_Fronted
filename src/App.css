@@ -28,29 +28,24 @@
     display: flex;
     background-color: var(--background1);
     overflow-y: hidden;
-    position: relative;
 }
 .app2{ 
     height: 100vh;
     width: calc(100% - 15rem);
-    /* overflow: hidden; */
-    /* overflow-y: auto; */
     padding: 0 !important;
     margin: 0 !important;
     position: relative;
 }
-::-webkit-scrollbar{
-    /* position: absolute;
-    right: 0;
-    height: 100%;
-    width: 2rem; */
-    /* display: none; */
-    /* display: none !important;
-    appearance: none !important;
-    width: 0;
-    background-color: transparent;
-    -webkit-appearance: none; */
-}
+::-webkit-scrollbar {
+    width: 14px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    border: 4px solid rgba(0, 0, 0, 0);
+    background-clip: padding-box;
+    border-radius: 9999px;
+    background-color: var(--background2);
+  }
 
 @media screen and (min-width:1440px) {
     .app>div:first-child {
@@ -85,7 +80,6 @@
     }
 
     .app2 {
-        /* height: 100vh; */
         width: calc(100% - 4rem);
     }
 }
@@ -98,9 +92,12 @@
         min-height: 100dvh;
     }
     .app2{
-        height: calc( 100vh - 3.5rem); 
+        height: calc( 100dvh - 3.5rem); 
         width: 100vw;
         max-width: 100%;
+        overflow: hidden;
     }
-
+    ::-webkit-scrollbar{
+        display: none;
+    }
 }

@@ -1,10 +1,11 @@
 .reelsMainDiv{
     height: 100%;
-    overflow-y:auto;
+    overflow-y:scroll;
     width: 100%;
     display: grid;
     grid-auto-flow: row;
     place-items: center;
+    box-sizing: border-box;
     opacity: .5;
     z-index: 500;
     gap: 1rem;
@@ -13,6 +14,7 @@
     margin: 0 !important;
     padding-top: 2rem;
     padding: 1rem 0;
+    scroll-snap-stop: normal;
 }
 .reelsMainDiv>div:first-child.animate {
     margin-bottom: 2rem;
@@ -24,20 +26,20 @@
     border-radius: 5px;
     position: relative;
     scroll-snap-align: center;
-    border: none;
+    scroll-snap-stop: normal;
     outline: none;
     z-index: 1;
     display: flex;
 }
-.reel>.backVideo{
-    content: '';
+.reel>.backVideo{   
     position: absolute;
-    opacity: .8;
-    filter: blur(25px);
+    opacity: .6;
+    filter: blur(50px);
     overflow: auto;
     z-index: -1;
     height: 100%;
-    width: 100%;
+    width: 100%;    
+
 }
 .reel>video{
     height: 100%;
@@ -45,31 +47,38 @@
     outline: none !important;
     z-index: 5;
     object-fit: cover;
+    border-radius: 5px;
 }
+.reel>video::after{
+    content: '';
+    background-color: transparent;
+}
+.reel>video:hover{
+    background-color: transparent;
+}
+
 @media screen and (max-width:425px) {
-    /* .reelsMainDiv{
-        scroll-padding-top: 0rem !important;
-        scroll-snap-type: y mandatory;   
-    } */
+    .reelsMainDiv{
+        padding-top: 0rem !important;
+        padding-bottom: 3.5rem;
+        height: calc(100vh - 3.5rem);
+    }
     .reel{
-        width: 100vw !important;
+        height: calc(100dvh - 3.5rem);
+        width: 100vw;
+        border-radius: 0px;
         scroll-snap-align: start;
-        height: auto !important;
-        height: calc( 100vh - 3.5rem) !important;
     }
     .reelsMainDiv>div:first-child.animate {
-        margin-bottom: 0rem;
+        margin-bottom: 0rem !important;
     }
 }
 @media screen and (max-width:767px) {
     .reelsMainDiv{
-        padding: 0 !important;
         gap: 0rem;
+        height: calc( 100vh - 3.5rem ) !important;
+        overflow-y: auto;
     }   
-    .reel{
-
-        border: 1px solid red;
-    }
     .reel>video{
         width: 100% !important;
         height:100%;

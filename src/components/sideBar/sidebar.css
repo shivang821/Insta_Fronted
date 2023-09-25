@@ -159,9 +159,12 @@
         position: fixed;
         bottom: 0;
         left: 0;
-        border-top: 1px solid var(--border);
+        border-top: 2px solid var(--border);
         opacity: 1 !important;
         border-right: none;
+    }
+    .sidebar1{
+        border-top: 0;
     }
     .sidebarTop{
         align-items: center;
@@ -183,11 +186,8 @@
         flex-direction: row;
     }
     .sidebarMiddle>a,.sidebarMiddle>div{
-        /* width: 3.3rem;
-        height: 3.3rem; */
         height: auto;
         width: auto ;
-        /* background-color: red; */
         justify-content: center;
         padding-left: 0;
     }
