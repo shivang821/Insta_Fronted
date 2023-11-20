@@ -1,45 +1,73 @@
 .search{
-    height: 100vh;
+    height: 100%;
     overflow-y: auto;
-    width: 100vw;
+    width: 100%;
     max-width: 100%;
+    padding: 0rem !important;
+    display: grid;
+    place-items: center;
 }
 .search2 {
-    height: auto !important;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height: 100%;
+    width: 30rem;
     padding: 1rem 0;
-}
-
-.searchCenter {
-    height: auto !important;
-    min-height: 100vh;
-    width: 48rem;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: masonry;
-    grid-auto-rows: max-content;
-    color: white;
+    padding-top: 1.5rem;
     position: relative;
 }
-
-.searchCenter>div {
-    height: auto;
-    background-color: var(--background2);
-    box-sizing: content-box;
-    margin: .1rem;
+.search21{
+    top: 1rem;
+    left: 0;
+    width: 100%;
+    height: 4rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    border-bottom: 1px solid var(--background3);
 }
-
-.vid {
-    grid-row: span 2 !important;
+.search21>div{
+    position: relative !important;
+    width: 90%;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
 }
-
-.imgDiv {
-    height: 16rem;
+.search21>div>input::placeholder{
+    font-size: 1.2rem !important;
+    color: var(--border);
+    transition: all .5s ease;
 }
-
-.vidDiv {
-    height: 32.2rem;
+.search21>div>input{
+    width: 100%;
+    height: 100%;
+    background-color: var(--background3);
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    padding-left: 2.7rem;
+    padding-right: 2.7rem;
+    font-size: 1.2rem;
+    color: var(--text2);
+    font-weight: normal;
+    transition: all 5s ease;
+}
+.search21>div>svg:first-child{
+    position: absolute;
+    height: 1.2rem !important; 
+    width: 1.2rem !important;
+    left: 1rem;
+    margin: auto 0;
+    z-index: 5;
+    color: var(--text3);
+    transform: translateY(.1rem);
+}
+.search21>div>svg:last-child{
+    position: absolute;
+    height: 1.2rem !important; 
+    width: 1.2rem !important;
+    right: 1rem;
+    margin: auto 0;
+    z-index: 5;
+    color: var(--border);
+    transform: translateY(.1rem);
+    cursor: pointer;
 }

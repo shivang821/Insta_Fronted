@@ -15,8 +15,9 @@ const Reels = () => {
   // const [touch, setTouch] = useState(false);
   useEffect(() => {
     if (reels.length === 0) {
-      dispatch(getReels({ page: 1, limit: 2 }));
+      dispatch(getReels({ page: 1, limit: 5 }));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleMute=(muteValue)=>{
     setMute(muteValue);
@@ -55,7 +56,7 @@ const Reels = () => {
         if (entries[0].isIntersecting) {
           if (!loading && hasMore) {
             setPage((prev) => prev + 1);
-            dispatch(getReels({ page: page + 1, limit: 2 }));
+            dispatch(getReels({ page: page + 1, limit: 5 }));
           }
         }
       },
@@ -70,10 +71,33 @@ const Reels = () => {
       }
     };
   }, [ref, reels.length, loading,hasMore,page,dispatch],device);
+  
+  useEffect(() => {
+    let ele;
+    const savedScrollPosition = localStorage.getItem('scrollPosition');
+    if (savedScrollPosition) {
+      if(ref.current){
+        ref.current.scrollTo({top:savedScrollPosition,behaviour:'instant'});
+        // ref.current.scrollTop=localStorage.getItem('scrollPosition')||0
+      }
+    }
+    const handleScroll=()=>{
+      if(ref.current){
+        localStorage.setItem('scrollPosition',ref.current.scrollTop)
+      }
+    }
+    if(ref.current){
+      ref.current.addEventListener('scroll',handleScroll)
+      ele=ref.current;
+    }
+    ele.addEventListener('scroll',handleScroll)
+    
+    return () => {
+      ele.removeEventListener('scroll',handleScroll)
+    };
+  }, []);
   return (
-    <motion.div
-      ref={ref}
-      className="reelsMainDiv"
+    <motion.div ref={ref} className="reelsMainDiv"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0.5 }}
@@ -85,11 +109,11 @@ const Reels = () => {
       {reels.map((item, i) => {
         return (
           <>
-            <ReelComponent mute={mute} handleMute={handleMute} item={item} ind={i} key={i} />
+            <ReelComponent mute={mute} handleMute={handleMute} item={item} ind={i} key={i+1} />
           </>
         );
       })}
-      {loading && <Loader/>}
+      {loading && <Loader />}
     </motion.div>
   );
 };

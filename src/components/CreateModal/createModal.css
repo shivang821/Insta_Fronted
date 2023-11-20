@@ -98,7 +98,6 @@
     align-items: center;
     justify-content: center;
     letter-spacing: .5px;
-    /* font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important; */
 }
 .backIcon{
     height: 2rem;
@@ -134,7 +133,6 @@
     background-color: var(--buttonHover);
 }
 #postDiv>label{
-    font-family: SF PRO;
     cursor: pointer;
     color: white;
     position: absolute;
@@ -227,9 +225,9 @@
     cursor: pointer;
 }
 
-.files>div>div>video::-webkit-media-controls{
-    /* display: none;   */
- }
+/* .files>div>div>video::-webkit-media-controls{
+    display: none;  
+ } */
 
 .files>.left{
     height: 3rem;

@@ -22,18 +22,22 @@ import { ReactComponent as DarkModeIcon } from './instaAssets/darkmodeIcon.svg'
 import Profile from './instaAssets/userProfileImage.jpg'
 import InstaIcon from './instaAssets/instaIcon.png'
 import { useDispatch, useSelector } from 'react-redux'
-import { SET_MODAL_OPEN, SET_dEVICE } from '../../reducers/appReducer'
+import { SET_DARKMODE, SET_MODAL_OPEN, SET_dEVICE } from '../../reducers/appReducer'
 const SideBar = () => {
   const {modalOpen}=useSelector(state=>state.App) 
   const [device, setDevice] = useState();
+  const {user}=useSelector(state=>state.User)
+  const {darkmode}=useSelector(state=>state.App)
   const [dark, setDark] = useState(localStorage.getItem('darkmode'));
   const dispatch=useDispatch()
   const setDarkMode = () => {
-    if (localStorage.getItem('darkmode') === 'enable') {
+    if (darkmode==='enable') {
       localStorage.setItem('darkmode', 'disable')
+      dispatch(SET_DARKMODE('disable'))
       setDark('disable')
     } else {
       localStorage.setItem('darkmode', 'enable')
+      dispatch(SET_DARKMODE('enable'))
       setDark('enable')
     }
   }
@@ -62,7 +66,7 @@ const SideBar = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [dark])
+  }, [dark,dispatch,darkmode])
   const setModalOpen = () => {
     dispatch(SET_MODAL_OPEN(!modalOpen));
   }
@@ -148,11 +152,11 @@ const SideBar = () => {
                 }
               </>
             </div>
-            <NavLink className={({ isActive }) => (isActive ? 'activeLink' : '')} to='/profile'>
+            <NavLink className={({ isActive }) => (isActive ? 'activeLink' : '')} to={{pathname:'/profile',state:'red'}}>
               {() => {
                 return (
                   <>
-                    <img src={Profile} alt="" />
+                    <img src={user?.profile?.url?user.profile.url:Profile} alt="" />
                     {
                       device === 'lap' && <p>Profile</p>
                     }
@@ -166,7 +170,7 @@ const SideBar = () => {
               <div onClick={setDarkMode}>
                 <>
                   {
-                    dark === 'enable' ? <LightModeIcon className='lightModeIcon' /> : <DarkModeIcon className='darkModeIcon' />
+                    darkmode === 'enable' ? <LightModeIcon className='lightModeIcon' /> : <DarkModeIcon className='darkModeIcon' />
                   }
                   {
                     device === 'lap' && <p className={dark === 'disable' ? 'darkswitch' : ''} >Switch</p>

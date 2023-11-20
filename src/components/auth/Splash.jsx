@@ -1,4 +1,3 @@
-import { memo } from 'react'
 import splashInstaIcon from './splashInstaIcon.png'
 import instaMetaIcon from './instaMetaIcon.png'
 import './splash.css'
@@ -20,4 +19,4 @@ const Splash = () => {
     )
 }
 
-export default memo(Splash)
+export default Splash

@@ -10,7 +10,7 @@ const Loader = () => {
                         <div className="text1"></div>
                     </div>
                     <div className="text2"></div>
-                </div>
+                </div>  
             </div>
         </>
     )

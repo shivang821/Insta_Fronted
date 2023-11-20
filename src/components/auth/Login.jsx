@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import './login.css'
-// import loginImage from './loginImage.png'
 import InstaWord from './InstaWord.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { login, signUp } from '../../actions/userActions'
@@ -10,12 +9,10 @@ const Login = () => {
     const [isLoginForm, setLoginForm] = useState(true)
     const [loginUserName,setLoginUserName]=useState("")
     const [loginPassword,setLoginPassword]=useState("")
-
     const [signUpEmail,setSignUpEmail]=useState("")
     const [signUpName,setSignUpName]=useState("")
     const [signUpUserName,setSignUpUserName]=useState("")
     const [signUpPassword,setSignUpPassword]=useState("")
-
     const submitSignUp=(e)=>{
         e.preventDefault()
         let signUpData=new FormData()

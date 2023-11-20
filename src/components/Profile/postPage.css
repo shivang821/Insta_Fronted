@@ -1,0 +1,28 @@
+.myPosts{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .3rem;
+    justify-content: flex-start;
+    align-items: center;
+}
+.myPosts1{
+    width: calc((100% - .9rem)/3);
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+}
+.myPosts1>img,.myPosts1>video{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    background-color: var(--background2);
+}
+.myPosts11{
+    position: absolute;
+    height: 1.1rem;
+    width: 1.1rem;
+    top: .5rem;
+    right: .5rem;
+}

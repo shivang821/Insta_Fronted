@@ -4,7 +4,8 @@ export const appSlice = createSlice({
     name: "App",
     initialState: {
         modalOpen:false,
-        device:""
+        device:"",
+        darkmode:localStorage.getItem('darkmode')
     },
     reducers: {
         SET_MODAL_OPEN :(state,action)=>{
@@ -12,8 +13,11 @@ export const appSlice = createSlice({
         },
         SET_dEVICE:(state,action)=>{
             state.device=action.payload
+        },
+        SET_DARKMODE:(state,action)=>{
+            state.darkmode=action.payload
         }
     }
 })
-export const { SET_MODAL_OPEN,SET_dEVICE} = appSlice.actions
+export const { SET_MODAL_OPEN,SET_dEVICE,SET_DARKMODE} = appSlice.actions
 export default appSlice.reducer
