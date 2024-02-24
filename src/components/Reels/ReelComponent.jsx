@@ -4,25 +4,31 @@ import PropTypes from "prop-types";
 import { ReactComponent as MuteIcon } from "../CreateModal/assets/muteIcon.svg";
 import { ReactComponent as UnMuteIcon } from "../CreateModal/assets/unMuteIcon.svg";
 import { ReactComponent as HeartIcon } from "./assets/heartIcon.svg";
+import { ReactComponent as CommentIcon } from "../sideBar/instaAssets/commentIcon.svg";
+import Profile from "../sideBar/instaAssets/userProfileImage.jpg";
 import ProfileImg from "../sideBar/instaAssets/userProfileImage.jpg";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { handleUserFollowing } from "../../reducers/userReducer";
+import CommentCard from "./CommentCard";
 const ReelComponent = ({ item, mute, handleMute }) => {
   const navigate = useNavigate();
+  const [openComments, setOpenComments] = useState(false);
+  const [comment, setComment] = useState();
   const { createdBy } = item;
   const { user } = useSelector((state) => state.User);
-  const scrollRef = useRef(null);
   const { device } = useSelector((state) => state.App);
+  const [commentsData, setCommentsData] = useState();
+  const scrollRef = useRef(null);
   const ref = useRef();
   const ref1 = useRef();
   const likeRef = useRef();
   const [like, setLike] = useState(false);
+  const [likes, setLikes] = useState(0);
   const [play, setPlay] = useState(false);
   const [lineClamp, setLineClamp] = useState(true);
-  const [likes, setLikes] = useState(0);
-  const [following,setFollowing]=useState(false)
-  const dispatch=useDispatch()
+  const [following, setFollowing] = useState(false);
+  const dispatch = useDispatch();
   const callbackFun = (entries) => {
     // if (entries[0].isIntersecting) {
     //   setPlay(true);
@@ -123,36 +129,57 @@ const ReelComponent = ({ item, mute, handleMute }) => {
     if (item) {
       setLikes(item.likes);
     }
-    if(user&&user.following.find(({user})=>user===item.createdBy._id)){
-      setFollowing(true)
+    if (
+      user &&
+      user.following.find(({ user }) => user === item.createdBy._id)
+    ) {
+      setFollowing(true);
     }
   }, [item, user]);
-  const handleFollowing=async()=>{
-    if(!following){
-      const {data}=await axios.patch('/api/addFollowing',{user:item.createdBy._id})
-      dispatch(handleUserFollowing(data.following))
-      if(data){
-        setFollowing(true)
+  const handleFollowing = async () => {
+    if (!following) {
+      const { data } = await axios.patch("/api/addFollowing", {
+        user: item.createdBy._id,
+      });
+      dispatch(handleUserFollowing(data.following));
+      if (data) {
+        setFollowing(true);
       }
-    }else{
-      const {data}=await axios.patch('/api/removeFollowing',{user:item.createdBy._id})
-      dispatch(handleUserFollowing(data.following))
-      if(data){
-        setFollowing(false)
+    } else {
+      const { data } = await axios.patch("/api/removeFollowing", {
+        user: item.createdBy._id,
+      });
+      dispatch(handleUserFollowing(data.following));
+      if (data) {
+        setFollowing(false);
       }
     }
-  }
+  };
+  const postComment = async () => {
+    const myForm = new FormData();
+    myForm.set("comment", comment);
+    const { data } = await axios.post(`/api/addComment/${item._id}`, {
+      comment: comment,
+    });
+    setCommentsData(data.comments);
+  };
+  const fetchComments = async () => {
+    const { data } = await axios.get(`/api/addComment/${item._id}`);
+    setCommentsData(data.comments);
+  };
   return (
     <div className="reel" ref={scrollRef}>
       <video
         className="reelVideo"
-        ref={ref}
         src={item ? item.posts[0].url : ""}
+        ref={ref}
         loop
         disablePictureInPicture
         controlsList="nodownload nofullscreen noplaybackrate"
         muted={mute}
-        onClick={() => handleMute(!mute)}
+        onClick={() => {
+          openComments ? setOpenComments(false) : handleMute(!mute);
+        }}
       ></video>
       {device !== "mob" && localStorage.getItem("ambientMode") === "enable" && (
         <video
@@ -178,14 +205,22 @@ const ReelComponent = ({ item, mute, handleMute }) => {
           <div className="text1 transparent bottomText1">
             <p
               onClick={() => {
+                item.createdBy._id===user._id?navigate(`/profile`):
                 navigate(`/profile/${item.createdBy._id}`);
               }}
             >
               {createdBy.username}
             </p>
           </div>
-          
-          {item.createdBy._id!==user._id&&<><p>|</p> <p onClick={handleFollowing} >{following?'Following...':'Follow...'}</p></>}
+
+          {item.createdBy._id !== user._id && (
+            <>
+              <p>|</p>{" "}
+              <p onClick={handleFollowing} style={{color:`${!following?'var(--button)':''}`,transition:'all .3s ease'}}>
+                {following ? "Following" : "Follow"}
+              </p>
+            </>
+          )}
         </div>
         <div
           className="text2 transparent"
@@ -205,6 +240,14 @@ const ReelComponent = ({ item, mute, handleMute }) => {
           <HeartIcon onClick={() => handleLike()} />
           <p>{likes}</p>
         </div>
+        <div className="commentDiv">
+          <CommentIcon
+            onClick={() => {
+              setOpenComments(!openComments);
+              fetchComments();
+            }}
+          />
+        </div>
         {!mute ? (
           <UnMuteIcon
             className="unMuteicon "
@@ -215,6 +258,48 @@ const ReelComponent = ({ item, mute, handleMute }) => {
         )}
       </div>
       <div className="gradientDiv"></div>
+      <div className="commentDivParent">
+        {openComments && (
+          <div
+            className={`commentsDiv ${
+              openComments ? "showCommentDiv" : "hideCommentDiv"
+            }`}
+          >
+            <div className="commentsDiv1">
+              <p>Comments</p>
+            </div>
+            <div className="commentsDiv2">
+              {commentsData && commentsData.comments ? (
+                commentsData.comments.map((commentItem, i) => {
+                  return <CommentCard comment={commentItem} key={i} />;
+                })
+              ) : (
+                <p style={{textAlign:'center',position:'absolute',top:'45%',left:'31%',color: "var(--text2)", fontWeight: "550" }}>
+                  No comments yet
+                </p>
+              )}
+            </div>
+            <div className="commentsDiv3">
+              <img src={user.profile?user.profile.url:Profile} />
+              <input
+                type="text"
+                placeholder="Add a comment"
+                value={comment}
+                onChange={(e) => {
+                  setComment(e.target.value);
+                }}
+              />
+              <button
+                style={{ color: `${comment ? "var(--button)" : ""}` }}
+                disabled={!comment}
+                onClick={postComment}
+              >
+                Post
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 :root {
   --background1: #ffffff;
-  --background2: #efefef;
+  --background2: #f5f5f5;
   --background3: #cccccc;
   
   --card:rgba(204, 204, 204,.3);
@@ -8,7 +8,7 @@
 
   --border: #c7c7c7;
   --text1: #101010;
-  --text2: #bebebe;
+  --text2: #727272;
   --text3: rgba(138, 138, 138, 0.527);
   --button: rgb(0, 149, 246);
   --buttonHover: rgb(24, 119, 242);
@@ -18,7 +18,7 @@
   --background2: #111111;
   --background3: #262626;
   --card:rgba(38, 38, 38,.3);
-  --cardBorder:rgba(153, 153, 153, 0.151);
+  --cardBorder:rgba(153, 153, 153, 0.445);
   --border: #737373;
   --text1: #ffffff;
   --text2: #d4d4d4;
@@ -108,5 +108,10 @@
   }
   ::-webkit-scrollbar {
     display: none;
+  }
+}
+@media screen and (max-width:525px) {
+  ::-webkit-scrollbar {
+    display: none !important;
   }
 }

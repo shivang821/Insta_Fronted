@@ -125,7 +125,7 @@ function App() {
                   <Route
                     path="/profile/:id"
                     element={
-                      isDailyLimitExceed ? <LimitExceedPage /> : <UserProfile />
+                      isDailyLimitExceed&& user.isDailyLimitSet ? <LimitExceedPage /> : <UserProfile />
                     }
                   />
                   <Route path="*" element={<Navigate to="/" />} />

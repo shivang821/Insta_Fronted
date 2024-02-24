@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { getMyReels } from "../../actions/userActions.js";
 import { ReactComponent as CancelIcon } from "./assets/crossImage.svg";
 import { ReactComponent as ArrowIcon } from "./assets/arrowImage.svg";
-import ReelCard from "./ReelCard.jsx";
 import { motion } from "framer-motion";
+import ReelCard from "./ReelCard.jsx";
 // import ReelComponent from "../Reels/ReelComponent.jsx";
 import { ReactComponent as MuteIcon } from "../CreateModal/assets/muteIcon.svg";
 import { ReactComponent as UnMuteIcon } from "../CreateModal/assets/unMuteIcon.svg";
@@ -35,7 +35,6 @@ const ReelPage = () => {
   useEffect(() => {
     if (currentReel) {
       setCurrentReel(myReels[ind]);
-      console.log(currentReel);
     }
   }, [ind]);
   const forward = () => {

@@ -62,7 +62,7 @@
     top: 2rem;
     height: 2rem !important;
     width: 2rem !important;
-    color: var(--text3);
+    color: var(--text1);
 }
 .forward{
     z-index: 400;

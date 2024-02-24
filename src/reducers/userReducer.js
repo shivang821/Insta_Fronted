@@ -16,7 +16,9 @@ export const userSlice = createSlice({
         isDailyLimitExceed:false,
         screenTime:0,
         Followers:[],
-        Followings:[]
+        Followings:[],
+        suggestedUsers:[],
+        suggestedPosts:[]
     },
     reducers: {
         setUserLoading: (state) => {
@@ -92,8 +94,14 @@ export const userSlice = createSlice({
         },
         reset_followers:(state)=>{
             state.Followers=[]
+        },
+        suggestedUsers_success:(state,action)=>{
+            state.suggestedUsers=[...action.payload]
+        },
+        suggestedPosts_success:(state,action)=>{
+            state.suggestedPosts=[...action.payload]
         }
     }
 })
-export const { setUserLoading, loadUser, userFail, clearUserError,profileUpdate_fail,profileUpdate_reset,profileUpdate_success,profileUpdate_request, myReels_success,myPosts_success,clear_user_error,user_error,logout_user,update_dailyLimit_exceed,handleUserFollowing,set_followings,set_followers,reset_followers,reset_followings} = userSlice.actions
+export const { setUserLoading, loadUser, userFail, clearUserError,profileUpdate_fail,profileUpdate_reset,profileUpdate_success,profileUpdate_request, myReels_success,myPosts_success,clear_user_error,user_error,logout_user,update_dailyLimit_exceed,handleUserFollowing,set_followings,set_followers,reset_followers,reset_followings,suggestedUsers_success,suggestedPosts_success} = userSlice.actions
 export default userSlice.reducer

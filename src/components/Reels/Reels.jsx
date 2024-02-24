@@ -70,7 +70,7 @@ const Reels = () => {
         observer.unobserve(ref.current.children[reels.length - 1]);
       }
     };
-  }, [ref, reels.length, loading,hasMore,page,dispatch],device);
+  }, [ref, reels.length, loading,hasMore,page,dispatch,device]);
   
   useEffect(() => {
     let ele;

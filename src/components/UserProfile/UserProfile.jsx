@@ -18,6 +18,8 @@ const UserProfile = () => {
   const [openFollowingModal, setOpenFollowingModal] = useState(false);
   const [openFollowerModal, setOpenFollowerModal] = useState(false);
   const [loading, setLoading] = useState(true);
+  const { user: mySelf } = useSelector((state) => state.User);
+  const [following, setFollowing] = useState(false);
   const { user } = useSelector((state) => state.UserProfile);
   const dispatch = useDispatch();
 
@@ -58,7 +60,7 @@ const UserProfile = () => {
         ref4.current.classList.add("closeClass");
       }
     }
-  }, [openFollowingModal, openFollowerModal,loading]);
+  }, [openFollowingModal, openFollowerModal, loading]);
   useEffect(() => {
     const callUser = async () => {
       const { data } = await axios.get(`/api/userProfile/${id}`);
@@ -66,7 +68,14 @@ const UserProfile = () => {
       setLoading(false);
     };
     callUser();
+    if (
+      mySelf &&
+      mySelf.following.find(({ user }) => user._id === user._id)
+    ) {
+      setFollowing(true);
+    }
   }, []);
+
   return (
     <div className="userProfile">
       {loading ? (
@@ -95,8 +104,8 @@ const UserProfile = () => {
               <div className="userName">
                 <h3>{user && user.username}</h3>
                 <div className="userName1">
-                  <button>Follow</button>
-                  <button>Message</button>
+                  <button>{following?'Following':'Follow'}</button>
+                  {/* <button>Message</button> */}
                 </div>
               </div>
               <h4>{user && user.name}</h4>
